@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "desktop-pet-window",
+  "description": "The local companion has no generic native window or filesystem permissions.",
+  "windows": ["desktop-pet"],
+  "permissions": []
+}

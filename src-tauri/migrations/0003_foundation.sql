@@ -1,0 +1,16 @@
+CREATE TABLE platform_search_dirty (singleton INTEGER PRIMARY KEY CHECK(singleton=1));
+INSERT INTO platform_search_dirty VALUES(1);
+CREATE TABLE platform_recent_visits (entity_type TEXT NOT NULL, entity_id TEXT NOT NULL, visited_at TEXT NOT NULL, PRIMARY KEY(entity_type,entity_id));
+CREATE TRIGGER platform_project_search_insert AFTER INSERT ON platform_projects BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_project_search_update AFTER UPDATE ON platform_projects BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_project_search_delete AFTER DELETE ON platform_projects BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_resource_search_insert AFTER INSERT ON platform_resources BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_resource_search_update AFTER UPDATE ON platform_resources BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_resource_search_delete AFTER DELETE ON platform_resources BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_note_search_insert AFTER INSERT ON platform_notes BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_note_search_update AFTER UPDATE ON platform_notes BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_task_search_insert AFTER INSERT ON platform_tasks BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_task_search_update AFTER UPDATE ON platform_tasks BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_task_search_delete AFTER DELETE ON platform_tasks BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_tag_search_insert AFTER INSERT ON platform_entity_tags BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;
+CREATE TRIGGER platform_tag_search_delete AFTER DELETE ON platform_entity_tags BEGIN INSERT OR IGNORE INTO platform_search_dirty VALUES(1); END;

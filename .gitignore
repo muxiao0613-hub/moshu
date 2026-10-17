@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.tools/
+src-tauri/target/
+src-tauri/gen/
+coverage/
+.DS_Store
+*.log
+test-results/
+playwright-report/
+
+public/mogao/

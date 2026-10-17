@@ -1,0 +1,25 @@
+import {afterEach,expect,it,vi} from 'vitest';
+import {act,cleanup,fireEvent,render,screen} from '@testing-library/react';
+import {Resources} from '../src/platform/Resources';
+const {invoke,listen}=vi.hoisted(()=>({invoke:vi.fn(),listen:vi.fn()}));
+vi.mock('@tauri-apps/api/core',()=>({invoke,isTauri:()=>true}));
+vi.mock('@tauri-apps/api/event',()=>({listen}));
+afterEach(()=>{cleanup();invoke.mockReset();listen.mockReset();});
+it('原生拖入完成立即刷新当前目录，保留筛选和未提交的资料详情字段，卸载解除订阅',async()=>{
+  const resource={id:'link-id',kind:'link',name:'原有链接',description:'',source:'',folderId:null,originalName:null,url:'https://example.com',favorite:false,tags:[],projectIds:[],size:null,mimeType:null,sha256:null,revision:1,createdAt:'date',updatedAt:'date',deletedAt:null};
+  let added=false;let receive:(event:{payload:{count:number;error:null}})=>void=()=>{};const stop=vi.fn();
+  listen.mockImplementation(async(name,handler)=>{expect(name).toBe('file-drop-result');receive=handler;return stop;});
+  invoke.mockImplementation(async name=>name==='list_module_library'?{items:[],hasMore:false,warnings:[]}:name==='list_resources'?added?[{...resource,id:'new-link',name:'拖入后的目录结果'},resource]:[resource]:[]);
+  render(<Resources onCreateNote={async()=>{}} onOpenNote={async()=>{}} onChanged={async()=>{}}/>);
+  await screen.findByRole('button',{name:/原有链接/});
+  fireEvent.click(screen.getByRole('button',{name:/原有链接/}));
+  const name=screen.getByRole('textbox',{name:'名称'});fireEvent.change(name,{target:{value:'尚未提交的新名称'}});
+  const favorite=screen.getByRole('checkbox',{name:'只看收藏'});fireEvent.click(favorite);
+  await screen.findByRole('button',{name:/原有链接/});
+  added=true;await act(async()=>receive({payload:{count:1,error:null}}));
+  await screen.findByRole('button',{name:/拖入后的目录结果/});
+  expect((screen.getByRole('textbox',{name:'名称'}) as HTMLInputElement).value).toBe('尚未提交的新名称');
+  expect((favorite as HTMLInputElement).checked).toBe(true);
+  expect(invoke).toHaveBeenCalledWith('list_resources',{input:expect.objectContaining({favoriteOnly:true})});
+  cleanup();expect(stop).toHaveBeenCalledTimes(1);
+});

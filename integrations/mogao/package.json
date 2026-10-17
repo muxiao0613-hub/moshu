@@ -1,0 +1,43 @@
+{
+  "name": "moshub-mogao-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tiptap/core": "3.31.4",
+    "@tiptap/extension-character-count": "3.31.4",
+    "@tiptap/extension-placeholder": "3.31.4",
+    "@tiptap/pm": "3.31.4",
+    "@tiptap/react": "3.31.4",
+    "@tiptap/starter-kit": "3.31.4",
+    "axios": "1.20.0",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "docx": "8.5.0",
+    "file-saver": "2.0.5",
+    "lucide-react": "0.468.0",
+    "openai": "4.104.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "7.18.4",
+    "tailwind-merge": "2.6.1",
+    "uuid": "11.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/file-saver": "2.0.7",
+    "@types/react": "18.3.28",
+    "@types/react-dom": "18.3.7",
+    "@types/uuid": "10.0.0",
+    "@vitejs/plugin-react": "4.7.0",
+    "autoprefixer": "10.5.0",
+    "postcss": "8.5.30",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vite": "6.4.4"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-13",
+  "machine": {
+    "model": "Mac17,3",
+    "physicalCpuCores": 10,
+    "memoryGiB": 16,
+    "os": "macOS 27.0.1",
+    "architecture": "arm64"
+  },
+  "measurementScope": "release core with real SQLite; excludes IPC, WebView render, native cold startup and page switching",
+  "projects": 100,
+  "linkResources": 10000,
+  "notes": 1000,
+  "tasks": 5000,
+  "searchSamples": 50,
+  "searchP95Ms": 4.228291,
+  "dirtySearchSamples": 20,
+  "dirtySearchP95Ms": 77.166833,
+  "saveCharacters": 10000,
+  "saveSamples": 50,
+  "saveP95Ms": 0.441833,
+  "rebuildMs": 62.271292,
+  "backupMs": 171.376709,
+  "databaseReopenMs": 39.917916
+}

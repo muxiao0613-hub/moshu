@@ -1,0 +1,73 @@
+墨稿 非商业开源协议
+MòGǎo Non-Commercial Open Source License
+
+版本 1.0，2026 年
+
+版权所有 © 2026 墨稿项目作者
+
+特此授予任何获得本软件及相关文档（以下简称"本软件"）副本的人，在遵守以下条件的前提下，免费使用、复制、修改、合并、发布、分发、再许可本软件的权利：
+
+─── 允许的使用 ───────────────────────────────────────────────
+
+✓ 个人学习与研究
+✓ 非商业性质的个人创作使用
+✓ 学术研究与论文引用
+✓ 非营利组织的内部使用
+✓ 二次开发与修改（须保留本协议及版权声明）
+✓ 分发修改后的版本（须以相同协议发布，且不得用于商业目的）
+
+─── 禁止的使用 ───────────────────────────────────────────────
+
+✗ 将本软件（或其任何修改版本、衍生版本）用于任何商业目的
+  包括但不限于：
+  · 作为付费产品或服务的一部分出售或出租
+  · 将本软件托管为商业 SaaS 服务
+  · 在商业项目中集成本软件以获取收益
+  · 以任何直接或间接方式通过本软件牟利
+
+─── 附加条款 ───────────────────────────────────────────────
+
+1. 再分发本软件时，须在所有副本中包含本协议全文及版权声明。
+
+2. 修改版本须在文件中明确标注已对原始版本进行修改，并注明修改日期。
+
+3. 若需要将本软件用于商业目的，须事先获得版权所有者的书面授权许可。
+   商业授权咨询请联系版权所有者。
+
+─── 免责声明 ───────────────────────────────────────────────
+
+本软件按"现状"提供，不附带任何明示或暗示的担保，包括但不限于对适销性、
+特定用途适用性及不侵权的担保。在任何情况下，版权所有者均不对因使用本软件
+而产生的任何索赔、损害或其他责任承担责任，无论是合同、侵权还是其他原因。
+
+───────────────────────────────────────────────────────────────
+
+MòGǎo Non-Commercial Open Source License
+Version 1.0, 2026
+
+Copyright (c) 2026 MòGǎo Project Authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, merge, publish, and distribute the Software, subject to the
+following conditions:
+
+PERMITTED USES:
+- Personal, non-commercial use
+- Academic research and education
+- Non-profit internal use
+- Modification and redistribution under this same license
+
+PROHIBITED USES:
+The Software, or any derivative thereof, may NOT be used for commercial
+purposes. "Commercial purposes" means any use that is primarily intended for
+or directed toward commercial advantage or monetary compensation, including
+but not limited to: selling the Software as a product or service, hosting the
+Software as a commercial SaaS, or integrating the Software into a commercial
+product.
+
+For commercial licensing inquiries, contact the copyright holder.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.

@@ -1,0 +1,32 @@
+import {defaultPreferences} from '../src/contracts';
+import { cleanup,render,screen,waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { afterEach,expect,it,vi } from 'vitest';
+import { App } from '../src/app/App';
+const invoke = vi.hoisted(()=>vi.fn());
+vi.mock('../src/shared/lib/bridge',()=>({command:invoke,asAppError:(error: unknown)=>error}));
+afterEach(()=>{cleanup();invoke.mockReset();});
+it('切页冲突后的全局重试不会卸载编辑器或丢掉未提交输入',async()=>{
+  const note={id:crypto.randomUUID(),title:'待提交笔记',body:{type:'doc',content:[{type:'paragraph'}]},plainText:'',schemaVersion:1,revision:1,createdAt:'2026-10-11T00:00:00Z',updatedAt:'2026-10-11T00:00:00Z'};
+  invoke.mockImplementation(async(name: string)=>{
+    if(name==='startup_workspace')return {preferences:defaultPreferences,location:{page:'home',entityId:null},notice:null};
+    if(name==='save_location'||name==='automatic_backup')return null;
+    if(name==='list_jobs'||name==='list_document_sessions')return [];
+    if(name==='dashboard')return {projects:[],notes:[note],todayTasks:[],overdueTasks:[],today:'2026-10-12'};
+    if(name==='workspace_status')return {workspaceId:crypto.randomUUID(),schemaVersion:1,appVersion:'0.1.0',projectCount:0,noteCount:1};
+    if(name==='list_notes')return [{id:note.id,title:note.title,revision:1,updatedAt:note.updatedAt}];
+    if(name==='list_note_drafts')return [];
+    if(name==='get_note')return note;
+    if(name==='write_note_draft')return null;
+    if(name==='save_note')throw {code:'CONFLICT',message:'数据库已有新稿',retryable:false,requestId:'test'};
+    throw new Error('unexpected command');
+  });
+  render(<App />);const user=userEvent.setup();await screen.findByRole('heading',{name:'最近的笔记'});
+  await user.click(screen.getByRole('button',{name:'资料'}));await user.click(await screen.findByRole('button',{name:'笔记'}));await user.click(screen.getByRole('button',{name:/^待提交笔记/}));
+  const title=await screen.findByRole('textbox',{name:'笔记标题'});await user.type(title,'未提交');
+  await user.click(screen.getByRole('button',{name:'工作'}));await screen.findByText('当前编辑内容尚未保存，请处理后再切换。');
+  await user.click(screen.getByRole('button',{name:'重试'}));
+  await waitFor(()=>expect((screen.getByRole('textbox',{name:'笔记标题'}) as HTMLInputElement).value).toBe('待提交笔记未提交'));
+  expect(screen.getByText('版本冲突')).toBeTruthy();
+});
+it('历史恢复成功记录不会再次执行恢复回调或覆盖启动时恢复的有效页面',async()=>{invoke.mockImplementation(async(name:string)=>{if(name==='startup_workspace')return {preferences:defaultPreferences,location:{page:'settings',entityId:null},notice:null};if(name==='workspace_status')return {workspaceId:'test',schemaVersion:3,appVersion:'0.1.0',projectCount:0,noteCount:0};if(['list_notes','list_backups','list_note_drafts','list_document_sessions'].includes(name))return [];if(name==='list_jobs')return [{id:'historical-restore',operation:'restore',status:'succeeded',progress:1,errorCode:null,updatedAt:'old'}];if(name==='storage_info')return {location:'/test',databaseBytes:0,attachmentBytes:0,editingBytes:0,backupBytes:0,schemaVersion:3,appVersion:'0.1.0'};if(['save_location','automatic_backup'].includes(name))return null;if(name==='dashboard')return {projects:[],notes:[],todayTasks:[],overdueTasks:[],today:'2026-10-13'};return null;});render(<App/>);await screen.findByRole('heading',{name:'设置'});await waitFor(()=>expect(invoke).toHaveBeenCalledWith('list_jobs',{}));expect(screen.queryByRole('heading',{name:'我的空间，让今天有条理。'})).toBeNull();});

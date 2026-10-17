@@ -1,0 +1,27 @@
+name: Platform checks
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  desktop:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.12.0'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@1.99.0
+        with:
+          components: rustfmt, clippy
+      - run: npm ci
+      - run: npm ci --prefix integrations/mogao
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - run: npm run rust -- fmt --manifest-path src-tauri/Cargo.toml --check
+      - run: npm run rust -- clippy --manifest-path src-tauri/Cargo.toml --locked --all-targets -- -D warnings
+      - run: npm run rust -- test --manifest-path src-tauri/Cargo.toml --locked
+      - run: npm run tauri -- build --debug --no-bundle

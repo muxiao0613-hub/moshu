@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-17",
+  "version": "0.1.0",
+  "architecture": "arm64",
+  "platformSchemaVersion": 4,
+  "moduleSchemaVersions": {
+    "mogao": 4
+  },
+  "dmgName": "墨枢_0.1.0_aarch64.dmg",
+  "signature": "ad-hoc",
+  "developerId": false,
+  "notarized": false,
+  "phase": "Grouped navigation and local fox companion",
+  "dmgBytes": 10349837,
+  "dmgSha256": "c0ea56bf08fc6359bbd7b8537b2f7d07af76e49a2053f425efc69e2a5a6ea29b",
+  "appBytes": 27069169,
+  "binarySha256": "9ffd35d039c3496161ce758506dbf69f5b1fb1492aeec14b98766e8979c92e83",
+  "previousRelease": {
+    "date": "2026-10-17",
+    "version": "0.1.0",
+    "phase": "Mogao library reading and optional fullscreen",
+    "architecture": "arm64",
+    "platformSchemaVersion": 4,
+    "moduleSchemaVersions": {
+      "mogao": 4
+    },
+    "dmgName": "墨枢_0.1.0_aarch64.dmg",
+    "dmgBytes": 10281430,
+    "dmgSha256": "d37497d22c578085a4b908bfa61d5935d3222394f618441ff6399081d451c8b2",
+    "appBytes": 26782369,
+    "binarySha256": "c8d33193cff2f08e449e407673f4f208e53f0e4b7228579a75e0eb3d050628f9",
+    "signature": "ad-hoc",
+    "developerId": false,
+    "notarized": false,
+    "previousRelease": {
+      "date": "2026-10-17",
+      "version": "0.1.0",
+      "phase": "Existing Mogao UI with native SQLite integration",
+      "architecture": "arm64",
+      "platformSchemaVersion": 4,
+      "moduleSchemaVersions": {
+        "mogao": 4
+      },
+      "dmgName": "墨枢_0.1.0_aarch64.dmg",
+      "dmgBytes": 10217878,
+      "dmgSha256": "34c230c97d4ea569d7dc3393f8e181b0b20c503dd47e90a642b1575bbfeb13d5",
+      "appBytes": 26588689,
+      "binarySha256": "cd15817887b39020542c1436cae7f191db57b08e81cb6f604b3b240182617809",
+      "signature": "ad-hoc",
+      "developerId": false,
+      "notarized": false,
+      "previousRelease": {
+        "date": "2026-10-15",
+        "version": "0.1.0",
+        "phase": "S04 manual Mogao",
+        "architecture": "arm64",
+        "platformSchemaVersion": 4,
+        "moduleSchemaVersions": {
+          "mogao": 2
+        },
+        "dmgName": "墨枢_0.1.0_aarch64.dmg",
+        "dmgBytes": 6536802,
+        "dmgSha256": "550df1933a77bf836dafb00c4d3e5907166cc58626e2dba9d3bffc2143d1631b",
+        "appBytes": 21468801,
+        "signature": "ad-hoc",
+        "developerId": false,
+        "notarized": false
+      }
+    }
+  }
+}

@@ -1,0 +1,308 @@
+/* 墨枢适配：已修改原始版本，2026-10-17。原许可与版权见 integrations/mogao/LICENSE。 */
+@import "tailwindcss" source("./");
+@config "../tailwind.config.js";
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* TipTap Editor Styles */
+.tiptap-editor .ProseMirror {
+  outline: none;
+  min-height: 100%;
+  font-size: 17px;
+  line-height: 1.95;
+  color: #1a1a1a;
+  font-family: 'Noto Serif SC', 'SimSun', 'Source Han Serif', serif;
+  letter-spacing: 0.02em;
+}
+
+.dark .tiptap-editor .ProseMirror {
+  color: #e8f8f8;
+}
+
+.tiptap-editor .ProseMirror p {
+  margin-bottom: 1.1em;
+  text-indent: 2em;
+}
+
+/* 阅读器正文：与编辑器一致的首行缩进 */
+.reader-prose p {
+  margin-bottom: 1.1em;
+  text-indent: 2em;
+}
+.reader-prose h1, .reader-prose h2, .reader-prose h3 {
+  text-indent: 0;
+  font-weight: bold;
+}
+
+.tiptap-editor .ProseMirror h1,
+.tiptap-editor .ProseMirror h2,
+.tiptap-editor .ProseMirror h3 {
+  text-indent: 0;
+  font-weight: bold;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.tiptap-editor .ProseMirror h1 { font-size: 1.5em; }
+.tiptap-editor .ProseMirror h2 { font-size: 1.3em; }
+.tiptap-editor .ProseMirror h3 { font-size: 1.1em; }
+
+.tiptap-editor .ProseMirror blockquote {
+  border-left: 3px solid #4ed8d4;
+  padding-left: 1em;
+  margin-left: 0;
+  color: #6b7280;
+  text-indent: 0;
+}
+
+.tiptap-editor .ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+.tiptap-editor .ProseMirror ul,
+.tiptap-editor .ProseMirror ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+  text-indent: 0;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* AI streaming text animation */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.ai-cursor::after {
+  content: '▌';
+  animation: cursor-blink 1s infinite;
+  color: #4ed8d4;
+}
+
+/* ── Auth Page Animations ─────────────────────────────────────────── */
+@keyframes auth-float {
+  0%   { transform: translateY(0) rotate(0deg) scale(1);   opacity: 0; }
+  8%   { opacity: 1; }
+  85%  { opacity: 0.4; }
+  100% { transform: translateY(-110vh) rotate(720deg) scale(0.7); opacity: 0; }
+}
+
+@keyframes auth-shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+@keyframes auth-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(217, 119, 6, 0.55);  opacity: 0.85; }
+  50%       { box-shadow: 0 0 18px rgba(217, 119, 6, 0.95); opacity: 1; }
+}
+
+.auth-particle {
+  position: absolute;
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+  font-weight: 900;
+  animation: auth-float linear infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+.auth-btn-gold {
+  background: linear-gradient(90deg, #92400e 0%, #c46a10 25%, #f0b84a 50%, #c46a10 75%, #92400e 100%);
+  background-size: 300% auto;
+  animation: auth-shimmer 4s linear infinite;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(120, 90, 40, 0.25);
+  border-radius: 10px;
+  color: #2b2620;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+.auth-input:focus {
+  border-color: rgba(180, 83, 9, 0.6);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.14);
+}
+
+.auth-input::placeholder {
+  color: #a89c84;
+}
+
+.auth-typewriter::after {
+  content: '|';
+  animation: cursor-blink 0.9s ease-in-out infinite;
+  color: #d97706;
+  font-weight: 300;
+  margin-left: 1px;
+}
+
+/* ── Auth 深色模式：还原青瓷夜色（默认规则为浅色纸张） ── */
+@keyframes auth-glow-dark {
+  0%, 100% { box-shadow: 0 0 6px rgba(78, 216, 212, 0.6);  opacity: 0.8; }
+  50%       { box-shadow: 0 0 20px rgba(78, 216, 212, 1);  opacity: 1; }
+}
+.dark .auth-btn-gold {
+  background: linear-gradient(90deg, #1a8a88 0%, #3abcba 20%, #80f0ee 50%, #3abcba 80%, #1a8a88 100%);
+  background-size: 300% auto;
+}
+.dark .auth-input {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(78, 216, 212, 0.3);
+  color: #f0fafa;
+}
+.dark .auth-input:focus {
+  border-color: rgba(78, 216, 212, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(78, 216, 212, 0.12);
+}
+.dark .auth-input::placeholder { color: rgba(78, 216, 212, 0.35); }
+.dark .auth-typewriter::after { color: #4ed8d4; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Literary Dark Theme — zinc palette → celadon/teal (bright)
+   All rules scoped to .dark so light mode is untouched
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Backgrounds ───────────────────────────────────────────── */
+.dark .bg-zinc-950,  .dark .dark\:bg-zinc-950  { background-color: #07070f; }
+.dark .bg-zinc-900,  .dark .dark\:bg-zinc-900  { background-color: #0a0a14; }
+.dark .bg-zinc-800,  .dark .dark\:bg-zinc-800  { background-color: #0f0f1c; }
+.dark .bg-zinc-700,  .dark .dark\:bg-zinc-700  { background-color: rgba(78,216,212,0.18); }
+.dark .bg-zinc-600,  .dark .dark\:bg-zinc-600  { background-color: rgba(78,216,212,0.28); }
+
+/* opacity-modulated variants used in dropdowns / dialogs */
+.dark .bg-zinc-800\/95, .dark .dark\:bg-zinc-800\/95 { background-color: rgba(15,15,28,0.97); }
+.dark .bg-zinc-800\/50, .dark .dark\:bg-zinc-800\/50 { background-color: rgba(15,15,28,0.55); }
+.dark .bg-zinc-50\/80,  .dark .dark\:bg-zinc-50\/80  { background-color: rgba(15,15,28,0.8); }
+
+/* ── Text ───────────────────────────────────────────────────── */
+.dark .text-zinc-100, .dark .dark\:text-zinc-100 { color: #f0fafa; }
+.dark .text-zinc-200, .dark .dark\:text-zinc-200 { color: #d0f0ee; }
+.dark .text-zinc-300, .dark .dark\:text-zinc-300 { color: #aadedd; }
+.dark .text-zinc-400, .dark .dark\:text-zinc-400 { color: #7ac8c6; }
+.dark .text-zinc-500, .dark .dark\:text-zinc-500 { color: #4ea8a6; }
+.dark .text-zinc-600, .dark .dark\:text-zinc-600 { color: #4ed8d4; }
+
+/* hover text */
+.dark .hover\:text-zinc-100:hover  { color: #f0fafa; }
+.dark .hover\:text-zinc-300:hover  { color: #aadedd; }
+
+/* ── Borders ────────────────────────────────────────────────── */
+.dark .border-zinc-800, .dark .dark\:border-zinc-800 { border-color: rgba(78,216,212,0.15); }
+.dark .border-zinc-700, .dark .dark\:border-zinc-700 { border-color: rgba(78,216,212,0.25); }
+.dark .border-zinc-600, .dark .dark\:border-zinc-600 { border-color: rgba(78,216,212,0.38); }
+.dark .border-zinc-700\/60 { border-color: rgba(78,216,212,0.16); }
+.dark .border-zinc-700\/80 { border-color: rgba(78,216,212,0.22); }
+.dark .divide-zinc-700 > * + * { border-color: rgba(78,216,212,0.18); }
+
+/* ── Hover backgrounds ──────────────────────────────────────── */
+.dark .hover\:bg-zinc-700:hover,  .dark .dark\:hover\:bg-zinc-700:hover { background-color: rgba(78,216,212,0.16); }
+.dark .hover\:bg-zinc-800:hover,  .dark .dark\:hover\:bg-zinc-800:hover { background-color: rgba(78,216,212,0.10); }
+.dark .hover\:bg-zinc-600:hover,  .dark .dark\:hover\:bg-zinc-600:hover { background-color: rgba(78,216,212,0.28); }
+.dark .hover\:bg-red-500\/10:hover { background-color: rgba(220,38,38,0.1); }
+
+/* ── Focus ring (inputs, textareas) ────────────────────────── */
+.dark input:focus-visible,
+.dark textarea:focus-visible,
+.dark select:focus-visible {
+  --tw-ring-color: rgba(78,216,212,0.55);
+  border-color: rgba(78,216,212,0.7) !important;
+}
+
+/* ── Ink primary accent (buttons) → bright celadon ─────────── */
+.dark .dark\:bg-ink-500          { background-color: #2ab8b4; }
+.dark .dark\:hover\:bg-ink-600:hover { background-color: #3ed4d0; }
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+.dark ::-webkit-scrollbar-thumb         { background: rgba(78,216,212,0.25); }
+.dark ::-webkit-scrollbar-thumb:hover   { background: rgba(78,216,212,0.45); }
+
+/* ── ProseMirror editor (chapters) in dark mode ─────────────── */
+.dark .tiptap-editor .ProseMirror { color: #e8f8f8; }
+
+/* ── Placeholder text ───────────────────────────────────────── */
+.dark .dark\:placeholder\:text-zinc-500::placeholder { color: rgba(78,216,212,0.35); }
+
+/* ═══════════════════════════════════════════════════════════════
+   Light Theme — 宣纸 / 米白纸张质感（仅浅色；深色维持青瓷夜色）
+   通过覆盖 zinc / white 背景与边框工具类实现，无需改任何组件
+═══════════════════════════════════════════════════════════════ */
+
+/* ── 背景：页面底色偏暖、卡片略浅形成纸张层次 ── */
+html:not(.dark) .bg-zinc-50,
+html:not(.dark) .bg-zinc-50\/80     { background-color: #f4eee1; }   /* 页面：宣纸米白 */
+html:not(.dark) .bg-white           { background-color: #faf6ed; }   /* 卡片/输入：纸面，比页面略亮 */
+html:not(.dark) .bg-zinc-100        { background-color: #ece3d2; }   /* 次级/凹陷面 */
+html:not(.dark) .bg-zinc-200        { background-color: #e2d8c3; }   /* 轨道/分隔填充 */
+html:not(.dark) .hover\:bg-zinc-100:hover { background-color: #ece3d2; }
+html:not(.dark) .hover\:bg-zinc-200:hover { background-color: #e2d8c3; }
+html:not(.dark) .hover\:bg-zinc-50:hover  { background-color: #efe8d9; }
+
+/* ── 边框：暖色淡棕，呼应纸张 ── */
+html:not(.dark) .border-zinc-100 { border-color: #ece3d0; }
+html:not(.dark) .border-zinc-200 { border-color: #e3d9c4; }
+html:not(.dark) .border-zinc-300 { border-color: #d6cab1; }
+html:not(.dark) .divide-zinc-200 > * + * { border-color: #e3d9c4; }
+
+/* ── 文字：偏暖的墨色，像墨写在纸上 ── */
+html:not(.dark) .text-zinc-900 { color: #2b2620; }
+html:not(.dark) .text-zinc-800 { color: #3b352c; }
+html:not(.dark) .text-zinc-700 { color: #4c463a; }
+html:not(.dark) .tiptap-editor .ProseMirror { color: #2b2620; }
+
+/* ── 浅色滚动条：暖色 ── */
+html:not(.dark) ::-webkit-scrollbar-thumb       { background: #d8ccb2; }
+html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #c3b594; }
