@@ -44,6 +44,7 @@ pub enum PetActionKind {
     OpenWorkspace,
     Hide,
     Recenter,
+    Greet,
 }
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

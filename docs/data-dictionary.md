@@ -244,4 +244,8 @@ ModuleLifecycle 提供通用内容类型/搜索/回收/备份校验/内容大小
 
 `platform_preferences.key='desktopPet'` 独立保存 `PetPreferences { revision, enabled, alwaysOnTop, size: small|medium|large }`，缺省 revision=1、关闭、置顶、标准。`save_pet_preferences` 在短事务校验 baseRevision 并递增版本，不修改 personal 偏好；无迁移，schema 仍为 4，完整备份包含该键。
 
-桌面命令 `get_desktop_pet`（查询配置与实际 visible）、`save_desktop_pet`（baseRevision/preference 后应用窗口）、`pet_action`（openWorkspace/hide/recenter）使用 Rust 语义接口。桌宠调用窗口仅允许查询/动作，主窗口可配置。`pet_drag` 按 dragId 串行处理 start/move/end，Rust 将逻辑指针距离换算为物理坐标并限制在起始屏幕内，只能移动固定桌宠窗口。所有业务正文命令对桌宠拒绝。新 page `pet` 可保存/恢复位置，但不混入旧 personal.navigation；五类导航把已有页面按职责收拢。
+`platform_preferences.key='desktopPetPosition'` 保存 `{ x: i32, y: i32 }`（物理像素、窗口左上角），schema_version=1，独立于 desktopPet 的 revision。写入前校验绝对值不超过 1,000,000；记录损坏或版本不符按“无位置”处理并回落到默认角落，不阻断桌宠显示。该键同样随完整备份保存和恢复。
+
+桌面命令 `get_desktop_pet`（查询配置与实际 visible）、`save_desktop_pet`（baseRevision/preference 后应用窗口）、`pet_action`（openWorkspace/hide/recenter/greet）使用 Rust 语义接口。桌宠调用窗口仅允许查询/动作/拖动，主窗口可配置。`pet_drag` 按 dragId 串行处理 start/move/end，Rust 将逻辑指针距离换算为物理坐标并限制在所有显示器并集内，只能移动固定桌宠窗口；end 阶段尽力写入位置。所有业务正文命令对桌宠拒绝。新 page `pet` 可保存/恢复位置，但不混入旧 personal.navigation；五类导航把已有页面按职责收拢。
+
+形象素材：`src/platform/pet/assets/<mood>-<n>.png|webp`，mood 取 idle/happy/sleeping/waving/dragging，n 从 1 递增；构建期收集为帧序列，按 idle 3fps、happy 7fps、sleeping 1.4fps、waving 8fps、dragging 1fps 播放，`prefers-reduced-motion` 时停在首帧。

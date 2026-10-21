@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "desktop-pet-window",
-  "description": "The local companion has no generic native window or filesystem permissions.",
+  "description": "The local companion has no generic native window or filesystem permissions; it only listens for local greet events.",
   "windows": ["desktop-pet"],
-  "permissions": []
+  "permissions": ["core:event:default"]
 }

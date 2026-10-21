@@ -8,5 +8,6 @@ coverage/
 *.log
 test-results/
 playwright-report/
+.workbuddy-ai/
 
 public/mogao/

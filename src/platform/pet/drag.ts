@@ -1,24 +1,37 @@
 import {command} from '../../shared/lib/bridge';
 type Point={x:number;y:number};
-/** Serialize native moves so an old pointer event cannot move a newer drag. */
+type DragSession={id:string;origin:Point;latest:Point|null;started:boolean;finished:boolean;queued:boolean;failed:boolean};
+/** Keep only the newest unsent pointer position instead of accumulating IPC moves. */
 export class PetDragController {
-  private origin:Point|null=null;
-  private id='';
+  private session:DragSession|null=null;
   private queue:Promise<unknown>=Promise.resolve();
   dragged=false;
   constructor(private readonly onError:(error:unknown)=>void) {}
-  start(point:Point){this.origin=point;this.id=crypto.randomUUID();this.dragged=false;}
-  move(point:Point){
-    if(!this.origin)return;
-    if(!this.dragged){
-      if(Math.hypot(point.x-this.origin.x,point.y-this.origin.y)<=5)return;
-      this.dragged=true;this.send('start',this.origin);
-    }
-    this.send('move',point);
+  start(point:Point){
+    this.finish();this.dragged=false;
+    this.session={id:crypto.randomUUID(),origin:point,latest:null,started:false,finished:false,queued:false,failed:false};
   }
-  finish(){if(this.origin&&this.dragged)this.send('end',this.origin);this.origin=null;}
-  private send(phase:'start'|'move'|'end',point:Point){
-    const dragId=this.id;
-    this.queue=this.queue.catch(()=>{}).then(()=>command('pet_drag',{dragId,phase,...point})).catch(this.onError);
+  move(point:Point){
+    const session=this.session;if(!session||session.failed)return;
+    if(!this.dragged){if(Math.hypot(point.x-session.origin.x,point.y-session.origin.y)<=5)return;this.dragged=true;}
+    session.latest=point;this.flush(session);
+  }
+  finish(){
+    const session=this.session;this.session=null;
+    if(!session)return;session.finished=true;
+    if(this.dragged&&!session.failed)this.flush(session);
+  }
+  private flush(session:DragSession){
+    if(session.queued)return;session.queued=true;
+    this.queue=this.queue.catch(()=>{}).then(async()=>{
+      try{
+        if(!session.started){await command('pet_drag',{dragId:session.id,phase:'start',...session.origin});session.started=true;}
+        while(session.latest){const point=session.latest;session.latest=null;await command('pet_drag',{dragId:session.id,phase:'move',...point});}
+        if(session.finished){await command('pet_drag',{dragId:session.id,phase:'end',...session.origin});session.started=false;}
+      }catch(error){
+        session.failed=true;session.latest=null;this.onError(error);
+        if(session.started)await command('pet_drag',{dragId:session.id,phase:'end',...session.origin}).catch(()=>{});
+      }finally{session.queued=false;}
+    });
   }
 }

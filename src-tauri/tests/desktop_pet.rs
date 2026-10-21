@@ -72,6 +72,38 @@ async fn pet_settings_persist_with_revision_conflicts_without_changing_personal_
     );
 }
 #[tokio::test]
+async fn pet_position_is_remembered_independently_and_survives_restart() {
+    let root = tempfile::tempdir().unwrap();
+    {
+        let database = Database::open(root.path()).unwrap();
+        let service = PlatformService::new(database);
+        assert_eq!(service.get_pet_position().await.unwrap(), None);
+        service.save_pet_position(-1200, 640).await.unwrap();
+        assert_eq!(
+            service.get_pet_position().await.unwrap(),
+            Some((-1200, 640))
+        );
+        assert!(service.save_pet_position(2_000_000, 0).await.is_err());
+        // Dragging never touches the revisioned settings form.
+        assert_eq!(
+            service
+                .get_pet_preferences(request())
+                .await
+                .unwrap()
+                .revision,
+            1
+        );
+    }
+    {
+        let database = Database::open(root.path()).unwrap();
+        let service = PlatformService::new(database);
+        assert_eq!(
+            service.get_pet_position().await.unwrap(),
+            Some((-1200, 640))
+        );
+    }
+}
+#[tokio::test]
 async fn complete_backup_contains_the_actual_pet_preferences() {
     let root = tempfile::tempdir().unwrap();
     let database = Database::open(root.path()).unwrap();
